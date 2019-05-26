@@ -1,0 +1,22 @@
+.avatar {
+  /*height: 40vmin;*/
+  /*pointer-events: none;*/
+
+  /*height: 70px;*/
+  /*width: 100px;*/
+  position: absolute;
+
+  color: purple;
+  background: url("../assets/logo.svg");
+  animation: App-logo-spin infinite 20s linear;
+  transition: all 0.0666s;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
