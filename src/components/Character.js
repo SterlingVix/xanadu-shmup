@@ -24,7 +24,6 @@ class Character extends Component {
       && prevProps.stage.left === 0 && prevProps.stage.left !== stage.left
     ) {
       const startingState = this.getStartingPosition(stage);
-      console.log(`Setting starting position:`, startingState);
       this.setState(startingState);
     }
   }
