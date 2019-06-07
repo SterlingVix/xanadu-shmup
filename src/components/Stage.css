@@ -15,4 +15,21 @@
 
 .stage {
   border: 2px solid black;
+  overflow: hidden;
+}
+
+.scrollingBackground {
+  background: url("../assets/repeating-background.png") repeat-x;
+  height: 960px;
+  width: 1280px;
+  animation: backgroundScroll 30s linear infinite;
+}
+
+@keyframes .backgroundScroll {
+  0%{
+    transform: translate3d(0, 0, 0);
+  }
+  100%{
+    transform: translate3d(-2560px, 0, 0);
+  }
 }

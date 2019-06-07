@@ -2,23 +2,80 @@ import React, {Component} from 'react';
 import './Character.css';
 
 class Character extends Component {
-  unhandledKey = event => console.log(event.keyCode);
+  constructor(props) {
+    super(props);
+    // Character properties:
+    this.height = 70;
+    this.speed = 5;
+    this.width = 100;
+
+    this.state = {
+      x: undefined,
+      y: undefined,
+    };
+  } // end constructor
+
+  componentDidUpdate(prevProps) {
+    const { stage } = this.props;
+
+    if ( prevProps.stage.top === 0 && prevProps.stage.top !== stage.top
+      && prevProps.stage.right === 0 && prevProps.stage.right !== stage.right
+      && prevProps.stage.bottom === 0 && prevProps.stage.bottom !== stage.bottom
+      && prevProps.stage.left === 0 && prevProps.stage.left !== stage.left
+    ) {
+      const startingState = this.getStartingPosition(stage);
+      console.log(`Setting starting position:`, startingState);
+      this.setState(startingState);
+    }
+  }
+
+  getStartingPosition = (stage) => ({
+    // x: stage.left + ((stage.right - stage.left) / 2),
+    x: stage.left,
+    y: stage.bottom + ((stage.top - stage.bottom) / 2),
+  });
+
   onPressUp = (event) => {
-    const newPosition = this.state.y + this.speed;
-    this.setState({y: newPosition > window.innerHeight ? window.innerHeight : newPosition});
+    const {
+      height,
+      props: { stage: { top } },
+      speed,
+      state: { y },
+    } = this;
+    const newPosition = y + speed;
+    const maxPos = top - height;
+    this.setState({y: newPosition > maxPos ? maxPos : newPosition});
   };
   onPressRight = (event) => {
-    const newPosition = this.state.x + this.speed;
-    this.setState({x: newPosition > window.innerWidth ? window.innerWidth : newPosition});
+    const {
+      props: { stage: { right } },
+      speed,
+      state: { x },
+      width,
+    } = this;
+    const newPosition = x + speed;
+    const maxPos = right - width;
+    this.setState({x: newPosition > maxPos ? maxPos : newPosition});
   };
   onPressDown = (event) => {
-    const newPosition = this.state.y - this.speed;
-    this.setState({y: newPosition < 0 ? 0 : newPosition});
+    const {
+      props: { stage: { bottom } },
+      speed,
+      state: { y },
+    } = this;
+    const newPosition = y - speed;
+    this.setState({y: newPosition < bottom ? bottom : newPosition});
   };
   onPressLeft = (event) => {
-    const newPosition = this.state.x - this.speed;
-    this.setState({x: newPosition < 0 ? 0 : newPosition});
+    const {
+      props: { stage: { left } },
+      speed,
+      state: { x },
+    } = this;
+    const newPosition = x - speed;
+    this.setState({x: newPosition < left ? left : newPosition});
   };
+  unhandledKey = event => console.log(event.keyCode);
   initializeAvatarMovement = (avatarElement) => {
     // Create reference to our Avatar
     this.avatar = avatarElement;
@@ -42,23 +99,6 @@ class Character extends Component {
       inputHandler(event);
     }); // end keyDown()
   };
-
-  constructor(props) {
-    super(props);
-
-    // Character properties:
-    this.height = 70;
-    this.speed = 5;
-    this.width = 100;
-
-    this.screenHeight = window.innerHeight;
-    this.screenWidth = window.innerWidth;
-
-    this.state = {
-      x: 0,
-      y: 0,
-    };
-  } // end constructor
 
   render() {
     const {
